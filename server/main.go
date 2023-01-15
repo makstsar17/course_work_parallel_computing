@@ -29,13 +29,13 @@ func main() {
 	flag.BoolVar(&parallelExecution, "pe", true, "Execute parallel or consecutively")
 	flag.Parse()
 
-	files, err := ioutil.ReadDir("dataset")
+	files, err := ioutil.ReadDir("data")
 	if err != nil {
 		log.Fatal(err)
 	}
 	fileNames := make([]string, len(files))
 	for i, f := range files {
-		fileNames[i] = "dataset/" + f.Name()
+		fileNames[i] = "data/" + f.Name()
 	}
 
 	tm := time.Now()
