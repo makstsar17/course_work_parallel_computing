@@ -44,10 +44,11 @@ func main() {
 
 	if parallelExecution {
 		ht = invertedIndex.IndexDocs(fileNames, threads)
+		fmt.Printf("[Time %.6fs] Inverted Index is built. Threads number: %d\n", time.Since(tm).Seconds(), threads)
 	} else {
 		ht = invertedIndex.ConsIndexDocs(fileNames)
+		fmt.Printf("[Time %.6fs] Inverted Index is built.\n", time.Since(tm).Seconds())
 	}
-	fmt.Printf("[Time %.6fs] Threads number: %d\n", time.Since(tm).Seconds(), threads)
 
 	listener, err := net.Listen(NETWORK, HOST+":"+PORT)
 	if err != nil {
