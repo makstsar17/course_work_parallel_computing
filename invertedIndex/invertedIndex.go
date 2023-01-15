@@ -5,6 +5,7 @@ import (
 	"log"
 	"regexp"
 	"server/hashTable"
+	"strings"
 	"sync"
 )
 
@@ -17,7 +18,7 @@ func mappingFile(fileQueue <-chan string, ht *hashTable.HashTable) {
 
 		validWord := regexp.MustCompile(`[a-zA-Z-']{2,}`)
 		for _, word := range validWord.FindAllString(string(content), -1) {
-			ht.Insert(word, file)
+			ht.Insert(strings.ToLower(word), file)
 		}
 	}
 }
