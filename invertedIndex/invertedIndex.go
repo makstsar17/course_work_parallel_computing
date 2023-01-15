@@ -44,3 +44,19 @@ func IndexDocs(files []string, thr int) *hashTable.HashTable {
 
 	return ht
 }
+
+func ConsIndexDocs(files []string) *hashTable.HashTable {
+	ht := hashTable.GetHashTable()
+	for _, file := range files {
+		content, err := ioutil.ReadFile(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		validWord := regexp.MustCompile(`[a-zA-Z-']{2,}`)
+		for _, word := range validWord.FindAllString(string(content), -1) {
+			ht.Insert(word, file)
+		}
+	}
+	return ht
+}
