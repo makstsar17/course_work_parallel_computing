@@ -1,6 +1,7 @@
 package hashTable
 
 import (
+	"errors"
 	"server/hash"
 	"server/linkedList"
 	"sync"
@@ -74,4 +75,33 @@ func (ht *HashTable) Insert(key string, docId string) {
 		ht.rehashing()
 	}
 	ht.mu.Unlock()
+}
+
+func (ht *HashTable) Get(key string) (map[string]int, error) {
+	hashValue := hash.GetHash64(key)
+	keyId := hashValue % uint64(ht.capacity)
+
+	node := ht.buckets[keyId].Head
+	if node == nil {
+		return nil, errors.New("there is no such word")
+	}
+
+	var result map[string]int
+	var err error
+	for true {
+		if node.Word == key {
+			result = node.DocIds
+			err = nil
+			break
+		}
+
+		if node.Next == nil {
+			result = nil
+			err = errors.New("there is no such word")
+			break
+		}
+
+		node = node.Next
+	}
+	return result, err
 }
