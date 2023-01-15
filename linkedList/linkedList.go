@@ -11,6 +11,18 @@ type LinkedList struct {
 	Length int
 }
 
+func (l *LinkedList) InsertNode(node *Node) {
+	if l.Head == nil {
+		l.Head = node
+		return
+	}
+	last := l.Head
+	for last.Next != nil {
+		last = last.Next
+	}
+	last.Next = node
+}
+
 func (l *LinkedList) Insert(word string, docId string) {
 	if l.Head == nil {
 		l.Head = &Node{Word: word, DocIds: make(map[string]int)}
